@@ -1,0 +1,12 @@
+layer_1_dict:
+  key1: value2
+
+layer1_list: []
+
+bool_started_as_true: false
+
+bool_started_as_false: true
+
+null: now i am not null
+
+number_started_as_1: -999

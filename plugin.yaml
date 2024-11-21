@@ -1,0 +1,6 @@
+name: merge-values
+version: 0.6.7.1
+usage: Merge Values files
+description: This plugin merges values files for debugging purposes
+ignoreFlags: false
+command: python $HELM_PLUGIN_DIR/helm_helm_merge_values/main.py

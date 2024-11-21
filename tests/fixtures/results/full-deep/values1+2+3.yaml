@@ -1,0 +1,27 @@
+layer_1_dict:
+  key1: value2
+  layer_2_dict:
+    key1: value1
+  key2: value2
+  key3:
+  - list_value1
+  - list_value2
+  - third and final
+  - wait for me
+layer1_list:
+- dict1:
+    key: value
+  string: 'wow
+
+    very cool
+
+    '
+- seperate_string: 'actually really cool thingy here
+
+    '
+- i am new here
+bool_started_as_true: true
+bool_started_as_false: fish
+null: null
+number_started_as_1: true
+
