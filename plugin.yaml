@@ -1,8 +1,11 @@
 name: merge-values
-version: 0.6.7.1
+version: 1.0.0
 usage: Merge Values files
-description: This plugin merges values files for debugging purposes
+description: merge values files and output them to STD_OUT
 ignoreFlags: false
-command: $HELM_PLUGIN_DIR\.venv\Scripts\python.exe $HELM_PLUGIN_DIR/helm_merge_values/main.py
-#hooks:
-#  install: $HELM_PLUGIN_DIR/helm_kubeconform/install.sh
+command: $HELM_BIN template $HELM_PLUGIN_DIR\helm_merge_values
+platformCommand:
+  - os: linux
+    command: "$HELM_BIN template $HELM_PLUGIN_DIR/helm_merge_values"
+  - os: windows
+    command: "$HELM_BIN template $HELM_PLUGIN_DIR\\helm_merge_values"
