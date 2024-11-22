@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='HelmValuesMerge',
-    version='',
+    version='1.0.0',
     author='nomalord',
     install_requires=[
         'Click',

@@ -1,9 +1,10 @@
 import copy
-from typing import Dict
 
 import click
-from deepmerge import Merger, always_merger
+from deepmerge import Merger
 import yaml
+
+from helm_merge_values.click_custom_classes import OrderedParamsCommand
 
 HELM_DEFAULT_MERGE_STRATEGY = Merger(
     [
@@ -15,33 +16,14 @@ HELM_DEFAULT_MERGE_STRATEGY = Merger(
     ["override"]
 )
 
-FULL_DEEP_MERGE_STRATEGY = always_merger
-
-OVERRIDE_MERGE_STRATEGY = Merger(
-    [
-        (set, ["override"]),
-        (list, ["override"]),
-        (dict, ["override"]),
-    ],
-    ["override"],
-    ["override"]
-)
-
-merge_options: Dict[str, Merger] = {
-    "default-helm": HELM_DEFAULT_MERGE_STRATEGY,
-    "full-deep": FULL_DEEP_MERGE_STRATEGY,
-    "override": OVERRIDE_MERGE_STRATEGY,  # TODO fix OVERRIDE doesn't work for some reason
-}
-
-@click.command()
-@click.option('--strategy',
-              type=click.Choice(list(merge_options.keys()), case_sensitive=False), default='default-helm', show_default=True,
-              help='The strategy to use when merging'
-              )
+@click.command(cls=OrderedParamsCommand)
 @click.option('-f', '--values', 'file_names',
               type=click.Path(exists=True), multiple=True, default=[], required=True,
               help='The values file name')
-def merge_values(strategy, file_names):
+@click.option('--set', 'file_names',
+              type="", multiple=True, default=[], required=True,
+              help='The values file name')
+def merge_values(file_names):
     """
     Merge values files according to the chosen strategy\n
     Available Strategies:\n
@@ -52,7 +34,7 @@ def merge_values(strategy, file_names):
     merged_values_dict = {}
     loaded_values_files = [yaml.safe_load(click.open_file(file, mode='r')) for file in file_names]
     for values_file in loaded_values_files:
-        merge_options[strategy].merge(merged_values_dict, copy.deepcopy(values_file))
+        HELM_DEFAULT_MERGE_STRATEGY.merge(merged_values_dict, copy.deepcopy(values_file))
     click.echo(yaml.dump(merged_values_dict, sort_keys=False))
 
 if __name__ == '__main__':
